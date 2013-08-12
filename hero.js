@@ -28,6 +28,8 @@ function Hero(options) {
   this.strength = options.strength;
   this.agility = options.agility;
   this.magic = options.magic;
+  this.defense = options.defense;
+  this.resistance = options.resistance;
   this.equippedWeapon = this.weapons[0];
 }
 
@@ -41,13 +43,7 @@ Hero.prototype = {
     if (chance > hitChance) {
       console.log('Ops, the attack has missed!');
     } else {
-      var damage = 0;
-      if (this.equippedWeapon.weaponType == 'physical') {
-        damage = this.strength * this.equippedWeapon.weaponBaseDamage;      
-      }
-      if (this.equippedWeapon.weaponType == 'magical') {
-        damage = this.magic * this.equippedWeapon.weaponBaseDamage;
-      }
+      var damage = this.calculateDamage(this, target);
       target.hp -= damage;
       console.log(this.nickname + ' has attacked ' + target.nickname + ' for ' + damage + ' damage!');
       if (target.hp <= 0) {
@@ -65,6 +61,14 @@ Hero.prototype = {
   },
   info: function() {
     console.log('Hero: ' + this.nickname + ' | HP: ' + this.hp + ' | Weapon: ' + this.equippedWeapon.weaponName);
+  },
+  calculateDamage: function(attacker, attacked) {
+    if (attacker.equippedWeapon.weaponType == 'physical') {
+      return (attacker.strength * attacker.equippedWeapon.weaponBaseDamage) - attacked.defense * 2;
+    }
+    if (attacker.equippedWeapon.weaponType == 'magical') {
+      return (attacker.magic * attacker.equippedWeapon.weaponBaseDamage) - attacked.resistance * 2;
+    }
   },
   calculateHitChance: function(attacker, attacked) {
     return attacker.equippedWeapon.weaponBaseAccuracy - attacked.agility * 5
@@ -88,7 +92,9 @@ var chrom = new Hero({
   hp: 80,
   strength: 2,
   agility: 4,
-  magic: 1
+  magic: 1,
+  defense: 5,
+  resistance: 2
 })
 
 var sumia = new Hero({
@@ -100,7 +106,9 @@ var sumia = new Hero({
   hp: 90,
   strength: 1,
   agility: 3,
-  magic: 5
+  magic: 5,
+  defense: 1,
+  resistance: 4
 })
 
 var tactician = new Hero({
@@ -111,5 +119,7 @@ var tactician = new Hero({
   hp: 85,
   strength: 1,
   agility: 2,
-  magic: 7
+  magic: 7,
+  defense: 3,
+  resistance: 3
 })
