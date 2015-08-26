@@ -96,7 +96,7 @@ Hero.prototype = {
 function Stage(options) {
   var defaultOptions = {
     map: new Map(),
-    heroes: [new Hero()]
+    heroes: [new Hero()],
     enemies: [new Hero()]
   },
   options = $.extend(defaultOptions, options);

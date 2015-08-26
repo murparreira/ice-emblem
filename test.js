@@ -1,3 +1,8 @@
+var map = new Map({
+  width: 20,
+  height: 20
+});
+
 var chrom = new Hero({
   nickname: 'Chrom',
   weapons: [
@@ -37,4 +42,10 @@ var tactician = new Hero({
   magic: 7,
   defense: 3,
   resistance: 3
+});
+
+var stage = new Stage({
+  map: map,
+  heroes: [chrom, sumia],
+  enemies: [tactician]
 });
