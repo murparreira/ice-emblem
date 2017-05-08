@@ -1,4 +1,4 @@
 ice-emblem
 ==========
 
-Fire Emblem clone in Javascript!
+Fire Emblem clone mini-game in Javascript!
