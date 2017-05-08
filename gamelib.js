@@ -1,3 +1,14 @@
+var Util = (function() {
+ return {
+    writeToLog: function (message) {
+      li = document.createElement('li');
+      liMessage = document.createTextNode(message);
+      li.appendChild(liMessage);
+      document.getElementById('game-log').appendChild(li);
+    },
+ }
+}());
+
 function Map(options) {
   var defaultOptions = {
     pattern: [],
@@ -78,27 +89,20 @@ function Hero(options) {
 Hero.prototype = {
   walk: function(xPos, yPos) {
     var newPosition = [xPos, yPos];
-
-    li = document.createElement('li');
-    liMessage = document.createTextNode(this.nickname + ' moved from ' + this.currentPosition + ' to ' + newPosition); 
-    li.appendChild(liMessage);
-    document.getElementById('game-log').appendChild(li);
-
-    console.log('Hero walked');
-
+    Util.writeToLog(this.nickname + ' moved from ' + this.currentPosition + ' to ' + newPosition);
     this.currentPosition = newPosition;
   },
   attack: function(target) {
     var hitChance = this.calculateHitChance(this, target);
     var chance = Math.floor(Math.random() * 100 + 1);
     if (chance > hitChance) {
-      console.log('Ops, the attack has missed!');
+      Util.writeToLog('Ops, the attack has missed!');
     } else {
       var damage = this.calculateDamage(this, target);
       target.hp -= damage;
-      console.log(this.nickname + ' has attacked ' + target.nickname + ' for ' + damage + ' damage!');
+      Util.writeToLog(this.nickname + ' has attacked ' + target.nickname + ' for ' + damage + ' damage!');
       if (target.hp <= 0) {
-        console.log(target.nickname + ' has died!');
+        Util.writeToLog(target.nickname + ' has died!');
       }
     }
   },
@@ -111,7 +115,7 @@ Hero.prototype = {
     this.hp += 10;
   },
   info: function() {
-    console.log('Hero: ' + this.nickname + ' | HP: ' + this.hp + ' | Weapon: ' + this.equippedWeapon.weaponName);
+    Util.writeToLog('INFO -> Hero: ' + this.nickname + ' | HP: ' + this.hp + ' | Weapon: ' + this.equippedWeapon.weaponName);
   },
   calculateDamage: function(attacker, attacked) {
     if (attacker.equippedWeapon.weaponType == 'physical') {
@@ -126,10 +130,10 @@ Hero.prototype = {
   },
   changeWeapon: function(weapon) {
     if (this.weapons.length <= 1) {
-      console.log('You only have one weapon!');
+      Util.writeToLog('You only have one weapon!');
     } else {
       this.equippedWeapon = this.weapons[weapon];
-      console.log(this.nickname + ' is now using a ' + this.equippedWeapon.weaponName);
+      Util.writeToLog(this.nickname + ' is now using a ' + this.equippedWeapon.weaponName);
     }    
   }
 }
@@ -142,7 +146,7 @@ Map.prototype = {
       charSpan.addEventListener("click", clickDelegate.bind(this, char), false);
 
       function clickDelegate(char) {
-        alert(char.info());
+        char.info();
       }
     }
   },
