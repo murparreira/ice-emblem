@@ -14,7 +14,8 @@ var chrom = new Hero({
   agility: 4,
   magic: 1,
   defense: 5,
-  resistance: 2
+  resistance: 2,
+  currentPosition: [1, 1]
 });
 
 var sumia = new Hero({
@@ -28,7 +29,8 @@ var sumia = new Hero({
   agility: 3,
   magic: 5,
   defense: 1,
-  resistance: 4
+  resistance: 4,
+  currentPosition: [0, 5]
 });
 
 var tactician = new Hero({
@@ -41,7 +43,8 @@ var tactician = new Hero({
   agility: 2,
   magic: 7,
   defense: 3,
-  resistance: 3
+  resistance: 3,
+  currentPosition: [19, 18]
 });
 
 var stage = new Stage({
@@ -49,3 +52,19 @@ var stage = new Stage({
   heroes: [chrom, sumia],
   enemies: [tactician]
 });
+
+mapHeight = 6;
+mapWidth = 6;
+stage.map.pattern = [
+  ['w', 'w', 'w', 'r', 'r', 'r'],
+  ['f', 'f', 'r', 'r', 'm', 'r'],
+  ['r', 'r', 'r', 'm', 'm', 'r'],
+  ['r', 'r', 'f', 'r', 'm', 'r'],
+  ['r', 'f', 'r', 'r', 'r', 'r'],
+  ['r', 'f', 'r', 'r', 'r', 'r']
+];
+stage.map.height = mapHeight;
+stage.map.width = mapWidth;
+
+stage.map.translatePattern();
+stage.map.plotHtml(stage.heroes, stage.enemies);
